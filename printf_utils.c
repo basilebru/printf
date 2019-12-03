@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 19:04:46 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/03 17:37:35 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/03 19:08:47 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	ft_fill_field(char **nbr, const char *tmp, int flag, int add_num)
 	int i;
 	int j;
 	
-	//printf("nbr %s, flag %d, add_num %d", tmp, flag, add_num);
 	i = 0;
 	while(flag == 0 && i < add_num)
 	{
@@ -82,74 +81,21 @@ int ft_set_field(char **nbr, int flag, int add_num, int len_nbr)
 	char	*tmp;
 
 	if (add_num <= 0)
-		return (0);
+		return (len_nbr);
 	tmp = *nbr;
 	if (!(*nbr = malloc((len_nbr + add_num + 1) * sizeof(**nbr))))
 		return (-1);
 	ft_fill_field(nbr, tmp, flag, add_num);
 	free(tmp);
-	return (0);
+	return (len_nbr + add_num);
 }
 
-
-int	ft_arg_int_di(int n, int flag, int width, int prec)
+int	print_other_arg(va_list ap, const char id, int flag, int width, int prec) 
 {
-	char	*nbr;
-	int		len;
-
-	if (n == 0 && prec == 0)
-	{
-		write(1, "", 0);
-		return (0);
-	}
-	if (!(nbr = ft_itoa(n)))
-		return (-1);
-	len = ft_strlen(nbr);
-	if (ft_add_zeros(&nbr, prec - len, len) == -1)
-		return (-1);
-	printf("n after zeros: %s\n", nbr);
-	len = ft_strlen(nbr);
-	if (ft_set_field(&nbr, flag, width - len, len) == -1)
-		return (-1);
-	ft_putstr_fd(nbr, 1);
-	return (0);
-}
-
-int	ft_arg_int(int n, const char id, int flag, int width, int prec)
-{
-	if (id == 'c')
-	{
-		if (ft_arg_int_c(n, flag, width) == -1)
-			return (-1);
-		return (0);
-	}
-	if (ft_arg_int_di(n, flag, width, prec) == -1)
-		return (-1);
-	return (0);
-}
-
-
-int	print_arg(va_list ap, const char id, int flag, int width, int prec) // on devrait envoyer un *ap, car ap est modifie a chaque appel de la fonction. Pourtant fonctionne
-{
-	int n;
-	unsigned int u;
 	const char *str;
 	void *p;
-	
+
 	printf("|||flag: %d |width: %d |prec: %d |type: %c\n", flag, width, prec, id);
-	if (id == 'd' || id == 'i' || id == 'c')
-	{
-		n = va_arg(ap, int);
-		printf("initial n %d\n", n);
-		ft_arg_int(n, id, flag, width, prec);
-		return (0) ;
-	}
-	if (id == 'x' || id == 'X' || id == 'u')
-	{
-		u = va_arg(ap, unsigned int);
-		printf("unsigned int %d\n", u);
-		return (0) ;
-	}
 	if (id == 's')
 	{
 		str = va_arg(ap, const char *);
@@ -169,3 +115,30 @@ int	print_arg(va_list ap, const char id, int flag, int width, int prec) // on de
 	}
 	return (0) ;
 }
+
+int	print_arg(va_list ap, const char id, int flag, int width, int prec) // on devrait envoyer un *ap, car ap est modifie a chaque appel de la fonction. Pourtant fonctionne
+{
+	int n;
+	unsigned int u;
+	
+	printf("|||flag: %d |width: %d |prec: %d |type: %c\n", flag, width, prec, id);
+	if (id == 'd' || id == 'i' || id == 'c')
+	{
+		n = va_arg(ap, int);
+		printf("initial n %d\n", n);
+		if ((n = ft_arg_int(n, id, flag, width, prec)) == -1)
+			return (-1);
+		return (n);
+	}
+	if (id == 'x' || id == 'X' || id == 'u')
+	{
+		u = va_arg(ap, unsigned int);
+		printf("unsigned int %d\n", u);
+		//ft_arg_uint(n, id, flag, width, prec);
+		return (0) ;
+	}
+	if ((n = print_other_arg(ap, id, flag, width, prec)) == -1)
+		return (-1);
+	return (n);
+}
+

@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 18:03:57 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/03 17:37:34 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/03 19:08:50 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,59 +105,75 @@ void	ft_manage_format(int *prec, int *flag, int *width)
 	}
 }	
 
-int	ft_printf(const char *format, ...)
+int		ft_arg(va_list ap, const char *format, int *i, int *flag, int *width, int *prec)
 {
+	int ret;
+
+	ret = 0;
+	(*i)++;
+	ft_get_flag(format, i, flag);
+	if (ft_get_width(ap, format, i, width) == -1)
+		return (-1);
+	if (ft_get_prec(ap, format, i, prec) == -1)
+		return (-1);
+	ft_manage_format(prec, flag, width);
+	if ((ret = print_arg(ap, format[*i], *flag, *width, *prec)) == -1)
+		return (-1);
+	return (ret);
+}
+
 // si plus d'arguments que demande, printf fonctionne et renvoie un warning. -> ft_printf fonctionne (mais pas de warnig). OK ?
 // si moins d'arguments que demande, printf emet un warning et son comportement semble undefined. Le retour nest pas -1
 // voir dans quels cas printf renvoie "-1", et adapter pour ft_printf
+int	ft_printf(const char *format, ...)
+{
 	va_list	ap;
 	int i;
-	int p;
 	int flag;
 	int width;
 	int	prec;
+	int count;
 
 	va_start(ap, format);
 	i = 0;
+	count = 0;
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
-			i++;
-			ft_get_flag(format, &i, &flag);
-			if (ft_get_width(ap, format, &i, &width) == -1)
+			if ((flag = ft_arg(ap, format, &i, &flag, &width, &prec)) == -1)
 				return (-1);
-			if (ft_get_prec(ap, format, &i, &prec) == -1)
-				return (-1);
-			ft_manage_format(&prec, &flag, &width);
+			count = count + flag;
+		}
+		else
+		{
+			write(1, &format[i], 1);
+			count++;
+		}
+		i++;
+	}
+	return (count);
+}
 			// si flag = 0 -> pas de flag
 			// si width = 0 -> pas de width minimum
 			// si prec = -1 -> pas de precision specifiee
 			// si prec = -2 -> precision implicite a zero au sens du man pour les conversions d, i, x, X, u: printf renvoie empty si on lui envoie zero avec une precision explicite a zero ("%.0d": explicite "%.d": explicite <> "%.*d" avec *renvoyant a un int negatif: implicite. 
-			if (print_arg(ap, format[i], flag, width, prec) == -1)
-				return (-1);
-		}
-		else
-			write(1, &format[i], 1);
-		i++;
-	}
-	return (i);
-}
 
 int	main()
 {
 		int a;
 		int ret;
 		
+		a = 2222;
+		
 		ret = 0;
-		a = 0;
-		//ft_printf("I am %0*d, and I live in Paris %5.12s. Here is the adress %10p. Here is how u write 10%%. Got %-.10u min to go", 29, a, "France", &a, 5);
-		//ret = printf("%.10d\n");
-		//printf("ret %d\n", ret);
-		//printf("end\n");
-		ft_printf("%.d", a);
+		ret = ft_printf("%-10.5d", a);
 		printf("end\n");
-		printf("%.d", a);
+		printf("ret: %d\n", ret);
+		
+		ret = 0;
+		ret = printf("%-10.5d", a);
 		printf("end\n");
+		printf("ret: %d\n", ret);
 }
 
