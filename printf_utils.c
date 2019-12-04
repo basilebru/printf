@@ -100,18 +100,18 @@ int	print_other_arg(va_list ap, const char id, int flag, int width, int prec)
 	{
 		str = va_arg(ap, const char *);
 		printf("const char * %s\n", str);
-		return (0) ;
+		return (0);
 	}
 	if (id == 'p')
 	{
-		p = va_arg(ap, void **);
+		p = va_arg(ap, void *);
 		printf("void * %p\n", p);
-		return (0) ;
+		return (0);
 	}
 	if (id == '%')
 	{
-		printf("%%\n");
-		return (0) ;
+		write(1, '%', 1);
+		return (1);
 	}
 	return (0) ;
 }
@@ -134,11 +134,10 @@ int	print_arg(va_list ap, const char id, int flag, int width, int prec) // on de
 	{
 		u = va_arg(ap, unsigned int);
 		printf("unsigned int %d\n", u);
-		//ft_arg_uint(n, id, flag, width, prec);
+		ft_arg_uint(n, id, flag, width, prec);
 		return (0) ;
 	}
 	if ((n = print_other_arg(ap, id, flag, width, prec)) == -1)
 		return (-1);
 	return (n);
 }
-

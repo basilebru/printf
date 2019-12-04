@@ -24,6 +24,7 @@ static int	ft_arg_int_c(int n, int flag, int width)
 	if (ft_set_field(&c, flag, width - 1, 1) == -1)
 		return (-1);
 	ft_putstr_fd(c, 1);
+	free(c);
 	return (0);
 }
 
@@ -36,18 +37,18 @@ static int	ft_arg_int_di(int n, int flag, int width, int prec)
 	if (n == 0 && prec == 0)
 	{
 		write(1, "", 0);
-		return (0);
+		return (width);
 	}
 	if (!(nbr = ft_itoa(n)))
 		return (-1);
 	len = ft_strlen(nbr);
 	if (ft_add_zeros(&nbr, prec - len, len) == -1)
 		return (-1);
-	printf("n after zeros: %s\n", nbr);
 	len = ft_strlen(nbr);
 	if ((ret = ft_set_field(&nbr, flag, width - len, len)) == -1)
 		return (-1);
 	ft_putstr_fd(nbr, 1);
+	free(nbr);
 	return (ret);
 }
 
@@ -57,9 +58,9 @@ int			ft_arg_int(int n, const char id, int flag, int width, int prec)
 	
 	if (id == 'c')
 	{
-		if ((ft_arg_int_c(n, flag, width) == -1))
+		if ((ret = ft_arg_int_c(n, flag, width) == -1))
 			return (-1);
-		return (0);
+		return (ret);
 	}
 	if ((ret = ft_arg_int_di(n, flag, width, prec)) == -1)
 		return (-1);
