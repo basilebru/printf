@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 18:03:57 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/05 13:15:39 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/05 20:30:50 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_get_prec(va_list ap, const char *format, int *i, int *prec)
 		if (format[*i] == '*')
 		{
 			if ((*prec = va_arg(ap, int)) < 0)
-				*prec = -2;
+				*prec = -1;
 			(*i)++;
 			return (1);
 		}
@@ -138,6 +138,7 @@ int		ft_arg(va_list ap, const char *format, int *i, int *flag, int *width, int *
 // si plus d'arguments que demande, printf fonctionne et renvoie un warning. -> ft_printf fonctionne (mais pas de warnig). OK ?
 // si moins d'arguments que demande, printf emet un warning et son comportement semble undefined. Le retour nest pas -1
 // voir dans quels cas printf renvoie "-1", et adapter pour ft_printf (remarque: si on lui donne des flags qui ne correspondent pas a lidentifier (ex: un flag 0 ou une precision avec un 'c'), printf emet un warning pour dire que le comportement est aleatoire --> ne renvoie pas -1. Ces cas de warning ne sont pas a gerer par nous.
+
 int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
@@ -169,26 +170,31 @@ int	ft_printf(const char *format, ...)
 }
 			// si flag = 0 -> pas de flag
 			// si width = 0 -> pas de width minimum
-			// si prec = -1 -> pas de precision specifiee
-			// si prec = -2 -> precision implicite a zero au sens du man pour les conversions d, i, x, X, u: printf renvoie empty si on lui envoie zero avec une precision explicite a zero ("%.0d": explicite "%.d": explicite <> "%.*d" avec *renvoyant a un int negatif: implicite. 
+			// si prec = -1 -> pas de precision specifiee ou precision negative, ce qui revient au meme
 
 int	main()
 {
 		int a;
 		int ret;
 		char c;
-		
+		char *str;
+		void *p;
+
+		str = ft_strdup("Hello");
+		p = (void *)str;
 		a = 110;
 		c = 50;
 		
-		//ret = 0;
-		//ret = ft_printf("%.4c", c);
-		//printf("end\n");
-		//printf("ret: %d\n", ret);
-		
 		ret = 0;
-		ret = printf("%10s", "Hello");
+		ret = ft_printf("%p\n", str);
 		printf("end\n");
 		printf("ret: %d\n", ret);
+		
+		ret = 0;
+		ret = printf("%p\n", str);
+		printf("end\n");
+		printf("ret: %d\n", ret);
+	
+		free(str);
 }
 
