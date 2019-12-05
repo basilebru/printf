@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:07:24 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/03 19:08:49 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/05 13:15:37 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@
 static int	ft_arg_int_c(int n, int flag, int width)
 {
 	char	*c;
+	int		ret;
 
 	if (!(c = malloc(2 * sizeof(*c))))
 		return (-1);
 	c[0] = n;
 	c[1] = 0;
-	if (ft_set_field(&c, flag, width - 1, 1) == -1)
+	if ((ret = ft_set_field(&c, flag, width - 1, 1)) == -1)
 		return (-1);
 	ft_putstr_fd(c, 1);
 	free(c);
-	return (0);
+	return (ret);
 }
 
 static int	ft_arg_int_di(int n, int flag, int width, int prec)
@@ -35,11 +36,8 @@ static int	ft_arg_int_di(int n, int flag, int width, int prec)
 	int		ret;
 
 	if (n == 0 && prec == 0)
-	{
-		write(1, "", 0);
-		return (width);
-	}
-	if (!(nbr = ft_itoa(n)))
+		nbr = ft_strdup("");	
+	else if (!(nbr = ft_itoa(n)))
 		return (-1);
 	len = ft_strlen(nbr);
 	if (ft_add_zeros(&nbr, prec - len, len) == -1)
@@ -58,7 +56,7 @@ int			ft_arg_int(int n, const char id, int flag, int width, int prec)
 	
 	if (id == 'c')
 	{
-		if ((ret = ft_arg_int_c(n, flag, width) == -1))
+		if ((ret = ft_arg_int_c(n, flag, width)) == -1)
 			return (-1);
 		return (ret);
 	}

@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 19:04:46 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/03 19:08:47 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/05 13:15:38 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,15 @@ int	print_other_arg(va_list ap, const char id, int flag, int width, int prec)
 {
 	const char *str;
 	void *p;
-
+	int ret;
+	
 	printf("|||flag: %d |width: %d |prec: %d |type: %c\n", flag, width, prec, id);
 	if (id == 's')
 	{
 		str = va_arg(ap, const char *);
-		printf("const char * %s\n", str);
-		return (0);
+		if ((ret = ft_arg_str((char *)str, flag, width, prec)) == -1)
+			return (-1);
+		return (ret);
 	}
 	if (id == 'p')
 	{
@@ -110,7 +112,7 @@ int	print_other_arg(va_list ap, const char id, int flag, int width, int prec)
 	}
 	if (id == '%')
 	{
-		write(1, '%', 1);
+		write(1, "%", 1); // a changer: doit gerer les flags et la width
 		return (1);
 	}
 	return (0) ;
@@ -125,7 +127,6 @@ int	print_arg(va_list ap, const char id, int flag, int width, int prec) // on de
 	if (id == 'd' || id == 'i' || id == 'c')
 	{
 		n = va_arg(ap, int);
-		printf("initial n %d\n", n);
 		if ((n = ft_arg_int(n, id, flag, width, prec)) == -1)
 			return (-1);
 		return (n);
@@ -133,9 +134,9 @@ int	print_arg(va_list ap, const char id, int flag, int width, int prec) // on de
 	if (id == 'x' || id == 'X' || id == 'u')
 	{
 		u = va_arg(ap, unsigned int);
-		printf("unsigned int %d\n", u);
-		ft_arg_uint(n, id, flag, width, prec);
-		return (0) ;
+		if ((n = ft_arg_uint(u, id, flag, width, prec)) == -1)
+			return (-1);
+		return (n);
 	}
 	if ((n = print_other_arg(ap, id, flag, width, prec)) == -1)
 		return (-1);

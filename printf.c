@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 18:03:57 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/03 19:08:50 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/05 13:15:39 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,19 @@ void	ft_manage_format(int *prec, int *flag, int *width)
 	}
 }	
 
+// voir s'il faut mieux le mettre avant ou apres le ft_manage_format
+/*int		ft_manage_error(const char id, int flag, int width, int prec)
+{
+	if (flag == '0')
+	{
+		if (id == 'c' || id == 's' || id == 'p' || id == '%')
+			return (-1);
+	}
+	width = 1;
+	prec = 1;
+	return (0);
+}*/
+
 int		ft_arg(va_list ap, const char *format, int *i, int *flag, int *width, int *prec)
 {
 	int ret;
@@ -124,7 +137,7 @@ int		ft_arg(va_list ap, const char *format, int *i, int *flag, int *width, int *
 
 // si plus d'arguments que demande, printf fonctionne et renvoie un warning. -> ft_printf fonctionne (mais pas de warnig). OK ?
 // si moins d'arguments que demande, printf emet un warning et son comportement semble undefined. Le retour nest pas -1
-// voir dans quels cas printf renvoie "-1", et adapter pour ft_printf
+// voir dans quels cas printf renvoie "-1", et adapter pour ft_printf (remarque: si on lui donne des flags qui ne correspondent pas a lidentifier (ex: un flag 0 ou une precision avec un 'c'), printf emet un warning pour dire que le comportement est aleatoire --> ne renvoie pas -1. Ces cas de warning ne sont pas a gerer par nous.
 int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
@@ -163,16 +176,18 @@ int	main()
 {
 		int a;
 		int ret;
+		char c;
 		
-		a = 2222;
+		a = 110;
+		c = 50;
+		
+		//ret = 0;
+		//ret = ft_printf("%.4c", c);
+		//printf("end\n");
+		//printf("ret: %d\n", ret);
 		
 		ret = 0;
-		ret = ft_printf("%-10.5d", a);
-		printf("end\n");
-		printf("ret: %d\n", ret);
-		
-		ret = 0;
-		ret = printf("%-10.5d", a);
+		ret = printf("%10s", "Hello");
 		printf("end\n");
 		printf("ret: %d\n", ret);
 }
