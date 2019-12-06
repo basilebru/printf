@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:07:24 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/05 20:30:52 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/06 16:06:24 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	ft_arg_int_di(int n, int flag, int width, int prec)
 	int		ret;
 
 	if (n == 0 && prec == 0)
-		nbr = ft_strdup("");	
+		nbr = ft_strdup("");
 	else if (!(nbr = ft_itoa(n)))
 		return (-1);
 	len = ft_strlen(nbr);
@@ -50,17 +50,17 @@ static int	ft_arg_int_di(int n, int flag, int width, int prec)
 	return (ret);
 }
 
-int			ft_arg_int(int n, const char id, int flag, int width, int prec)
+int			ft_arg_int(int n, const char id, q_list params)
 {
 	int ret;
-	
+
 	if (id == 'c')
 	{
-		if ((ret = ft_arg_int_c(n, flag, width)) == -1)
+		if ((ret = ft_arg_int_c(n, params.flag, params.width)) == -1)
 			return (-1);
 		return (ret);
 	}
-	if ((ret = ft_arg_int_di(n, flag, width, prec)) == -1)
+	if ((ret = ft_arg_int_di(n, params.flag, params.width, params.prec)) == -1)
 		return (-1);
 	return (ret);
 }

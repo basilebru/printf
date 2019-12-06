@@ -6,21 +6,23 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:15:25 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/05 19:57:07 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/06 15:47:15 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 #include "libft.h"
 
-int	conv_hexa(unsigned int n, char **str, char *base)
+int			conv_hexa(unsigned long n, char **str, char *base)
 {
-	int i;
-	unsigned int tmp;
-	
+	int				i;
+	unsigned long	tmp;
+
 	tmp = n;
 	i = 0;
-	while(tmp)
+	if (tmp == 0)
+		i = 1;
+	while (tmp)
 	{
 		tmp = tmp / 16;
 		i++;
@@ -29,7 +31,9 @@ int	conv_hexa(unsigned int n, char **str, char *base)
 		return (-1);
 	str[0][i] = 0;
 	i--;
-	while(n)
+	if (tmp == 0)
+		str[0][0] = '0';
+	while (n)
 	{
 		str[0][i] = base[n % 16];
 		n = n / 16;
@@ -43,10 +47,10 @@ static int	ft_arg_uint_u(unsigned int n, int flag, int width, int prec)
 	char	*nbr;
 	int		len;
 	int		ret;
-	
+
 	if (n == 0 && prec == 0)
-		nbr = ft_strdup("");	
-	else if (!(nbr = ft_itoa(n))) 
+		nbr = ft_strdup("");
+	else if (!(nbr = ft_itoa(n)))
 		return (-1);
 	len = ft_strlen(nbr);
 	if (ft_add_zeros(&nbr, prec - len, len) == -1)
@@ -66,7 +70,7 @@ static int	ft_arg_uint_x(unsigned int n, int flag, int width, int prec)
 	int		ret;
 
 	if (n == 0 && prec == 0)
-		nbr = ft_strdup("");	
+		nbr = ft_strdup("");
 	else if (conv_hexa(n, &nbr, "0123456789abcdef") == -1)
 		return (-1);
 	len = ft_strlen(nbr);
@@ -80,14 +84,14 @@ static int	ft_arg_uint_x(unsigned int n, int flag, int width, int prec)
 	return (ret);
 }
 
-static int	ft_arg_uint_X(unsigned int n, int flag, int width, int prec)
+static int	ft_arg_uint_xx(unsigned int n, int flag, int width, int prec)
 {
 	char	*nbr;
 	int		len;
 	int		ret;
 
 	if (n == 0 && prec == 0)
-		nbr = ft_strdup("");	
+		nbr = ft_strdup("");
 	else if (conv_hexa(n, &nbr, "0123456789ABCDEF") == -1)
 		return (-1);
 	len = ft_strlen(nbr);
@@ -100,24 +104,30 @@ static int	ft_arg_uint_X(unsigned int n, int flag, int width, int prec)
 	free(nbr);
 	return (ret);
 }
-	
-int	ft_arg_uint(unsigned int n, const char id, int flag, int width, int prec)
-{	
+
+int			ft_arg_uint(unsigned long n, const char id, q_list p)
+{
 	int ret;
-	
+
 	if (id == 'u')
 	{
-		if ((ret = ft_arg_uint_u(n, flag, width, prec)) == -1)
+		if ((ret = ft_arg_uint_u(n, p.flag, p.width, p.prec)) == -1)
 			return (-1);
 		return (ret);
 	}
 	if (id == 'x')
 	{
-		if ((ret = ft_arg_uint_x(n, flag, width, prec)) == -1)
+		if ((ret = ft_arg_uint_x(n, p.flag, p.width, p.prec)) == -1)
 			return (-1);
 		return (ret);
 	}
-	if ((ret = ft_arg_uint_X(n, flag, width, prec)) == -1)
+	if (id == 'p')
+	{
+		if ((ret = ft_arg_uint_p(n, p.flag, p.width, p.prec)) == -1)
+			return (-1);
+		return (ret);
+	}
+	if ((ret = ft_arg_uint_xx(n, p.flag, p.width, p.prec)) == -1)
 		return (-1);
 	return (ret);
 }
