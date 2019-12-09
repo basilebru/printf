@@ -13,27 +13,28 @@
 #include "printf.h"
 #include "libft.h"
 
-int		ft_prec_str(const char *str, char **nbr, int max)
+int		ft_prec_str(char **str, int max)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
+	char	*tmp;
 
 	if (max == -1)
 		return (0);
-	if (max == -2)
-		max = 0;
+	tmp = *str;
 	i = 0;
-	while (i < max && str[i])
+	while (i < max && str[0][i])
 		i++;
-	if (!(*nbr = malloc((i + 1) * sizeof(char))))
+	if (!(*str = malloc((i + 1) * sizeof(char))))
 		return (-1);
 	j = 0;
 	while (j < i)
 	{
-		nbr[0][j] = str[j];
+		str[0][j] = tmp[j];
 		j++;
 	}
-	nbr[0][i] = 0;
+	str[0][i] = 0;
+	free(tmp);
 	return (0);
 }
 
@@ -43,7 +44,10 @@ int		ft_arg_str(const char *str, q_list p)
 	int		ret;
 	char	*output;
 
-	if ((ft_prec_str(str, &output, p.prec) == -1))
+	if (str == NULL)
+		return (-1);
+	output = ft_strdup(str);
+	if ((ft_prec_str(&output, p.prec) == -1))
 		return (-1);
 	len = ft_strlen(output);
 	if ((ret = ft_set_field(&output, p.flag, p.width - len, len)) == -1)

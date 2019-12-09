@@ -50,6 +50,34 @@ static int	ft_arg_int_di(int n, int flag, int width, int prec)
 	return (ret);
 }
 
+static int	ft_arg_int_di_neg(int n, int flag, int width, int prec)
+{
+	char	*tmp;
+	char	*nbr;
+	int		len;
+	int		ret;
+
+	if (!(tmp = ft_itoa(-n)))
+		return (-1);
+	len = ft_strlen(tmp);
+	if (ft_add_zeros(&tmp, prec - len, len) == -1)
+		return (-1);
+	if (!(nbr = ft_strjoin("-", tmp)))
+		return (-1);
+	free(tmp);	
+	len = ft_strlen(nbr);
+	if ((ret = ft_set_field(&nbr, flag, width - len, len)) == -1)
+		return (-1);
+	if (flag == '0' && (width - len) > 0)
+	{
+		nbr[0] = '-';
+		nbr[width - len] = '0';
+	}
+	ft_putstr_fd(nbr, 1);
+	free(nbr);
+	return (ret);
+}
+
 int			ft_arg_int(int n, const char id, q_list params)
 {
 	int ret;
@@ -57,6 +85,11 @@ int			ft_arg_int(int n, const char id, q_list params)
 	if (id == 'c')
 	{
 		if ((ret = ft_arg_int_c(n, params.flag, params.width)) == -1)
+			return (-1);
+		return (ret);
+	}
+	else if (n < 0)
+	{	if ((ret = ft_arg_int_di_neg(n, params.flag, params.width, params.prec)) == -1)
 			return (-1);
 		return (ret);
 	}

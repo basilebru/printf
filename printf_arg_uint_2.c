@@ -13,23 +13,23 @@
 #include "printf.h"
 #include "libft.h"
 
-int	ft_arg_uint_p(unsigned long adr, int flag, int width, int prec)
+int	ft_arg_uint_p(unsigned long adr, int flag, int width)
 {
 	char	*output;
 	char	*tmp;
 	int		len;
 	int		ret;
 
-	if (adr == 0 && prec == 0)
-		tmp = ft_strdup("");
-	else if (conv_hexa(adr, &tmp, "0123456789abcdef") == -1)
-		return (-1);
-	if (!(output = ft_strjoin("0x", tmp)))
-		return (-1);
-	free(tmp);
-	len = ft_strlen(output);
-	if (ft_add_zeros(&output, prec - len, len) == -1)
-		return (-1);
+	if (adr == 0)
+		output = ft_strdup("(nil)");
+	else 
+	{
+		if (conv_hexa(adr, &tmp, "0123456789abcdef") == -1)
+			return (-1);
+		if (!(output = ft_strjoin("0x", tmp)))
+			return (-1);
+		free(tmp);
+	}
 	len = ft_strlen(output);
 	if ((ret = ft_set_field(&output, flag, width - len, len)) == -1)
 		return (-1);

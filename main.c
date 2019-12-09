@@ -3,22 +3,22 @@
 
 int	main()
 {
-		int a;
+		//int a;
 		int ret;
-		char c;
+		//char c;
 		char *str;
 
-		str = ft_strdup("Hello");
-		a = 12;
-		c = 50;
+		str = NULL;
+		//a = 12;
+		//c = 50;
 			
 		ret = 0;
-		ret = ft_printf("%0*d", 12, a);
+		ret = ft_printf("Hello %.3%");
 		printf("end\n");
 		printf("ret: %d\n", ret);
 			
 		ret = 0;
-		ret = printf("%0*d", 12, a);
+		ret = printf("Hello %.3%");
 		printf("end\n");
 		printf("ret: %d\n", ret);
 	

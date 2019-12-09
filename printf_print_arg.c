@@ -109,7 +109,7 @@ int		print_arg(va_list ap, const char id, q_list params) // on devrait envoyer u
 	int				n;
 	unsigned int	u;
 
-	printf("|||flag: %d |width: %d |prec: %d |type: %c\n", params.flag, params.width, params.prec, id);
+	//printf("|||flag: %d |width: %d |prec: %d |type: %c\n", params.flag, params.width, params.prec, id);
 	if (id == 'd' || id == 'i' || id == 'c')
 	{
 		n = va_arg(ap, int);

@@ -123,7 +123,7 @@ int			ft_arg_uint(unsigned long n, const char id, q_list p)
 	}
 	if (id == 'p')
 	{
-		if ((ret = ft_arg_uint_p(n, p.flag, p.width, p.prec)) == -1)
+		if ((ret = ft_arg_uint_p(n, p.flag, p.width)) == -1)
 			return (-1);
 		return (ret);
 	}

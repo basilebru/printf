@@ -31,7 +31,7 @@ void	ft_fill_field(char **nbr, const char *tmp, int flag, int add_num);
 int		ft_set_field(char **nbr, int flag, int add_num, int len_nbr);
 int		ft_arg_uint(unsigned long n, const char id, q_list params);
 int		ft_arg_str(const char *str, q_list params);
-int		ft_arg_uint_p(unsigned long adr, int flag, int width, int prec);
+int		ft_arg_uint_p(unsigned long adr, int flag, int width);
 int		conv_hexa(unsigned long n, char **str, char *base);
 int		ft_get_prec(va_list ap, const char *format, int *i, int *prec);
 int		ft_get_width(va_list ap, const char *format, int *i, int *width);
