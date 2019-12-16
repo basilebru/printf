@@ -6,14 +6,14 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:15:25 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/12 17:06:30 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 13:10:31 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf_bonus.h"
 #include "libft.h"
 
-int			conv_hexa(unsigned long n, char **str, char *base)
+int			conv_hexa(unsigned long long n, char **str, char *base)
 {
 	int				i;
 	unsigned long	tmp;
@@ -50,7 +50,7 @@ static int	ft_arg_uint_u(unsigned long long n, int flag, int width, int prec)
 
 	if (n == 0 && prec == 0)
 		nbr = ft_strdup("");
-	else if (!(nbr = ft_itoa(n)))
+	else if (!(nbr = ft_itoa_u(n)))
 		return (-1);
 	len = ft_strlen(nbr);
 	if (ft_add_zeros(&nbr, prec - len, len) == -1)
@@ -63,7 +63,7 @@ static int	ft_arg_uint_u(unsigned long long n, int flag, int width, int prec)
 	return (ret);
 }
 
-static int	ft_arg_uint_x(unsigned int n, int flag, int width, int prec)
+static int	ft_arg_uint_x(unsigned long long n, int flag, int width, int prec)
 {
 	char	*nbr;
 	int		len;
@@ -84,7 +84,7 @@ static int	ft_arg_uint_x(unsigned int n, int flag, int width, int prec)
 	return (ret);
 }
 
-static int	ft_arg_uint_xx(unsigned int n, int flag, int width, int prec)
+static int	ft_arg_uint_xx(unsigned long long n, int flag, int width, int prec)
 {
 	char	*nbr;
 	int		len;

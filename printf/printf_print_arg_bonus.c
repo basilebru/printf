@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 19:04:46 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/13 16:43:18 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 13:32:17 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ int		print_other_arg(va_list ap, const char id, q_list params)
 	if (id == 's' && params.len == NULL)
 	{
 		str = va_arg(ap, const char *);
+		if (params.prec == 0)
+		{
+		if ((ret = ft_arg_str("", params)) == -1)
+			return (-1);
+		return (ret);
+		}
 		if ((ret = ft_arg_str(str, params)) == -1)
 			return (-1);
 		return (ret);

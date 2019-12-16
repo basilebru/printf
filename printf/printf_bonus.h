@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 18:04:15 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/13 15:59:40 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 13:01:38 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		ft_arg_uint(unsigned long long n, const char id, q_list params);
 int		ft_arg_str(const char *str, q_list params);
 int		ft_arg_wstr(int *str, q_list params);
 int		ft_arg_uint_p(unsigned long adr, int flag, int width, int prec);
-int		conv_hexa(unsigned long n, char **str, char *base);
+int		conv_hexa(unsigned long long n, char **str, char *base);
 int		ft_get_prec(va_list ap, const char *format, int *i, int *prec);
 int		ft_get_width(va_list ap, const char *format, int *i, int *width);
 void	ft_get_flag(const char *format, int *i, int *flag);

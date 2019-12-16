@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:07:24 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/13 15:13:45 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 13:32:12 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ static int	ft_arg_int_c(int n, int flag, int width, char *len)
 			return (-1);
 		return (ret);
 	}
+	if (width == 0)
+	{
+		ft_putchar_fd(n, 1);
+		return (1);
+	}
+	if (!(c = malloc(2 * sizeof(*c))))
 	if (!(c = malloc(2 * sizeof(*c))))
 		return (-1);
 	c[0] = n;
@@ -80,7 +86,7 @@ static int	ft_arg_int_di_neg(long long int n, int flag, int width, int prec)
 	int		len;
 	int		ret;
 
-	if (!(tmp = ft_itoa(-n)))
+	if (!(tmp = ft_itoa_u(n * -1)))
 		return (-1);
 	len = ft_strlen(tmp);
 	if (ft_add_zeros(&tmp, prec - len, len) == -1)

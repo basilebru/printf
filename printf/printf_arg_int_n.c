@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:07:24 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/10 17:32:46 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 12:40:51 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,20 @@ static int	ft_arg_int_c(int n, int flag, int width)
 {
 	char	*c;
 	int		ret;
-
+	
+	if (width == 0)
+	{
+		ft_putchar_fd(n, 1);
+		return (1);
+	}
 	if (!(c = malloc(2 * sizeof(*c))))
 		return (-1);
 	c[0] = n;
 	c[1] = 0;
 	if ((ret = ft_set_field(&c, flag, width - 1, 1)) == -1)
 		return (-1);
-	ft_putstr_fd(c, 1);
+	else
+		ft_putstr_fd(c, 1);
 	free(c);
 	return (ret);
 }

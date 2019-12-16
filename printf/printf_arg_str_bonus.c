@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 12:30:41 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/13 16:02:44 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 13:40:42 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	ft_adjust_prec_wchar(int *str, int *prec)
 			return ;
 		}
 		cummul = cummul + byte_num(str[i]);
+		i++;
 	}
 	return ;
 }
