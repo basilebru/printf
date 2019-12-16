@@ -6,14 +6,14 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 12:30:41 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/16 13:40:42 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 17:40:51 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf_bonus.h"
 #include "libft.h"
 
-int		ft_prec_str(char **str, int max)
+static int	ft_prec_str(char **str, int max)
 {
 	int		i;
 	int		j;
@@ -38,7 +38,7 @@ int		ft_prec_str(char **str, int max)
 	return (0);
 }
 
-void	ft_adjust_prec_wchar(int *str, int *prec)
+static void	ft_adjust_prec_wchar(int *str, int *prec)
 {
 	int i;
 	int cummul;
@@ -52,7 +52,7 @@ void	ft_adjust_prec_wchar(int *str, int *prec)
 		if (*prec == cummul)
 			return ;
 		if (*prec > cummul && *prec < cummul + byte_num(str[i]))
-		{	
+		{
 			*prec = cummul;
 			return ;
 		}
@@ -62,13 +62,15 @@ void	ft_adjust_prec_wchar(int *str, int *prec)
 	return ;
 }
 
-int		ft_arg_str(const char *str, q_list p)
+int			ft_arg_str(const char *str, t_flags p)
 {
 	int		len;
 	int		ret;
 	char	*output;
 
-	if (str == NULL)
+	if (p.prec == 0)
+		output = ft_strdup("");
+	else if (str == NULL)
 		output = ft_strdup("(null)");
 	else
 		output = ft_strdup(str);
@@ -82,29 +84,41 @@ int		ft_arg_str(const char *str, q_list p)
 	return (ret);
 }
 
-int		ft_arg_wstr(int *str, q_list p)
+static int	ft_join_char(int *str, char **output)
+{
+	int		i;
+	char	*tmp;
+	char	*tmp2;
+
+	i = 0;
+	*output = ft_strdup("");
+	while (str[i])
+	{
+		tmp = ft_wctomb(str[i]);
+		tmp2 = *output;
+		if (!(*output = ft_strjoin(tmp2, tmp)))
+			return (-1);
+		free(tmp);
+		free(tmp2);
+		i++;
+	}
+	return (0);
+}
+
+int			ft_arg_wstr(int *str, t_flags p)
 {
 	int		len;
 	int		ret;
 	char	*output;
-	char	*tmp;
-	char	*tmp2;
-	
-	if (str == NULL)
+
+	if (p.prec == 0)
+		output = ft_strdup("");
+	else if (str == NULL)
 		output = ft_strdup("(null)");
 	else
 	{
-		ret = 0;
-		output = ft_strdup("");
-		while (str[ret])
-		{
-			tmp = ft_wctomb(str[ret]);
-			tmp2 = output;
-			output = ft_strjoin(tmp2, tmp);
-			free(tmp);
-			free(tmp2);
-			ret++;
-		}
+		if (ft_join_char(str, &output) == -1)
+			return (-1);
 	}
 	ft_adjust_prec_wchar(str, &(p.prec));
 	if ((ft_prec_str(&output, p.prec) == -1))
@@ -116,5 +130,3 @@ int		ft_arg_wstr(int *str, q_list p)
 	free(output);
 	return (ret);
 }
-
-	

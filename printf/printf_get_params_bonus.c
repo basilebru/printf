@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/06 11:45:56 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/11 17:11:59 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 17:43:10 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,17 @@ void	ft_get_flag(const char *format, int *i, int *flag)
 int		ft_get_len(const char *format, int *i, char **len)
 {
 	int j;
-	
+
 	*len = NULL;
 	j = *i;
-	while(format[j] == 'l' || format[j] == 'h')
+	while (format[j] == 'l' || format[j] == 'h')
 		j++;
 	if (j == *i)
 		return (1);
-	if(!(len[0] = malloc((j + 1) * sizeof(*len))))
+	if (!(len[0] = malloc((j + 1) * sizeof(*len))))
 		return (-1);
 	j = 0;
-	while(format[*i] == 'l' || format[*i] == 'h')
+	while (format[*i] == 'l' || format[*i] == 'h')
 	{
 		len[0][j] = format[*i];
 		(*i)++;

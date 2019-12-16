@@ -6,14 +6,14 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 18:03:57 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/12 17:06:31 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 17:41:55 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf_bonus.h"
 #include "libft.h"
 
-int		ft_arg(va_list ap, const char *format, int *i, q_list *p)
+int		ft_arg(va_list ap, const char *format, int *i, t_flags *p)
 {
 	int ret;
 
@@ -46,7 +46,7 @@ int		ft_printf(const char *format, ...)
 	int		i;
 	int		ret;
 	int		count;
-	q_list	param;
+	t_flags	param;
 
 	va_start(ap, format);
 	i = 0;

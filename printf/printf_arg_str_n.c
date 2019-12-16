@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 12:30:41 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/16 11:41:14 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 17:40:50 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ int		ft_prec_str(char **str, int max)
 	return (0);
 }
 
-int		ft_arg_str(const char *str, q_list p)
+int		ft_arg_str(const char *str, t_flags p)
 {
 	int		len;
 	int		ret;
 	char	*output;
 
-	if (str == NULL)
+	if (p.prec == 0)
+		output = ft_strdup("");
+	else if (str == NULL)
 		output = ft_strdup("(null)");
 	else
 		output = ft_strdup(str);

@@ -6,41 +6,14 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 15:59:58 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/16 13:40:40 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 17:44:47 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf_bonus.h"
 #include "libft.h"
 
-int	bit_num(int a)
-{
-	int count;
-
-	count = 0;
-	while (a)
-	{
-		a = a >> 1;
-		count++;
-	}
-	return (count);
-}
-
-int byte_num(int count)
-{
-	count = bit_num(count);
-	if (count < 8)
-		return (1);
-	if (count < 12)
-		return (2);
-	if (count < 17)
-		return (3);
-	if (count < 22)
-		return (4);
-	return (-1);
-}
-
-char *wcto_1b(int n)
+static char	*wcto_1b(int n)
 {
 	char *c;
 
@@ -51,10 +24,10 @@ char *wcto_1b(int n)
 	return (c);
 }
 
-char *wcto_2b(int n)
+static char	*wcto_2b(int n)
 {
 	char	*c;
-	int		tmp;		
+	int		tmp;
 
 	if (!(c = malloc(3 * sizeof(*c))))
 		return (NULL);
@@ -68,7 +41,7 @@ char *wcto_2b(int n)
 	return (c);
 }
 
-char *wcto_3b(int n)
+static char	*wcto_3b(int n)
 {
 	char	*c;
 	int		tmp;
@@ -81,7 +54,7 @@ char *wcto_3b(int n)
 	c[0] = tmp;
 	tmp = n & TWELVE_UNITS_T;
 	tmp2 = tmp >> 6;
-	tmp2= tmp2 | R_BYTES_T;
+	tmp2 = tmp2 | R_BYTES_T;
 	c[1] = tmp2;
 	tmp = tmp & SIX_UNITS_T;
 	tmp = tmp | R_BYTES_T;
@@ -90,9 +63,8 @@ char *wcto_3b(int n)
 	return (c);
 }
 
-char *wcto_4b(int n)
+static char	*wcto_4b(int n)
 {
-	
 	char	*c;
 	int		tmp;
 	int		tmp2;
@@ -104,7 +76,7 @@ char *wcto_4b(int n)
 	c[0] = tmp;
 	tmp = n & EIGHTEEN_UNITS_T;
 	tmp2 = tmp >> 12;
-	tmp2= tmp2 | R_BYTES_T;
+	tmp2 = tmp2 | R_BYTES_T;
 	c[1] = tmp2;
 	tmp2 = tmp & TWELVE_UNITS_T;
 	tmp2 = tmp2 >> 6;
@@ -117,7 +89,7 @@ char *wcto_4b(int n)
 	return (c);
 }
 
-char *ft_wctomb(int n)
+char		*ft_wctomb(int n)
 {
 	char *output;
 

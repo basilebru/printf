@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:07:24 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/16 12:40:51 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 17:40:05 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ft_arg_int_c(int n, int flag, int width)
 {
 	char	*c;
 	int		ret;
-	
+
 	if (width == 0)
 	{
 		ft_putchar_fd(n, 1);
@@ -84,7 +84,7 @@ static int	ft_arg_int_di_neg(long int n, int flag, int width, int prec)
 	return (ret);
 }
 
-int			ft_arg_int(int n, const char id, q_list p)
+int			ft_arg_int(int n, const char id, t_flags p)
 {
 	int ret;
 

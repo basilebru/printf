@@ -6,7 +6,7 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 18:15:25 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/13 16:46:35 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 17:41:56 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static int	ft_arg_uint_xx(unsigned int n, int flag, int width, int prec)
 	return (ret);
 }
 
-int			ft_arg_uint(unsigned long n, const char id, q_list p)
+int			ft_arg_uint(unsigned long n, const char id, t_flags p)
 {
 	int ret;
 

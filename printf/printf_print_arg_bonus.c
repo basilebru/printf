@@ -6,18 +6,18 @@
 /*   By: bbrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 19:04:46 by bbrunet           #+#    #+#             */
-/*   Updated: 2019/12/16 13:32:17 by bbrunet          ###   ########.fr       */
+/*   Updated: 2019/12/16 17:44:49 by bbrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf_bonus.h"
 #include "libft.h"
 
-int		print_other_other_arg(va_list ap, const char id, q_list params)
+static int		print_other_other_arg(va_list ap, const char id, t_flags params)
 {
 	void		*p;
 	int			ret;
-	
+
 	if (id == 'p')
 	{
 		p = va_arg(ap, void *);
@@ -34,7 +34,7 @@ int		print_other_other_arg(va_list ap, const char id, q_list params)
 	return (-1);
 }
 
-int		print_other_arg(va_list ap, const char id, q_list params)
+static int		print_other_arg(va_list ap, const char id, t_flags params)
 {
 	const char	*str;
 	wchar_t		*str_w;
@@ -43,12 +43,6 @@ int		print_other_arg(va_list ap, const char id, q_list params)
 	if (id == 's' && params.len == NULL)
 	{
 		str = va_arg(ap, const char *);
-		if (params.prec == 0)
-		{
-		if ((ret = ft_arg_str("", params)) == -1)
-			return (-1);
-		return (ret);
-		}
 		if ((ret = ft_arg_str(str, params)) == -1)
 			return (-1);
 		return (ret);
@@ -65,12 +59,11 @@ int		print_other_arg(va_list ap, const char id, q_list params)
 	return (ret);
 }
 
-int		print_arg(va_list ap, const char id, q_list params)
+int				print_arg(va_list ap, const char id, t_flags params)
 {
 	long long int			n;
 	unsigned long long int	u;
 
-	//printf("|||flag: %d |width: %d |prec: %d |len: %s | type: %c\n", params.flag, params.width, params.prec, params.len, id);
 	if (id == 'd' || id == 'i' || id == 'c')
 	{
 		if (ft_get_arg_int(&n, ap, params.len, id) == -1)
@@ -82,7 +75,7 @@ int		print_arg(va_list ap, const char id, q_list params)
 	if (id == 'x' || id == 'X' || id == 'u')
 	{
 		if (ft_get_arg_uint(&u, ap, params.len) == -1)
-			return(-1);
+			return (-1);
 		if ((n = ft_arg_uint(u, id, params)) == -1)
 			return (-1);
 		return (n);
